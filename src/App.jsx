@@ -1,44 +1,30 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
-import Home from "./pages/Home";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
 import POS from "./pages/POS";
 import Settings from "./pages/Settings";
+import Users from "./pages/Users";
 
 function App() {
   return (
-    <Router>
-      <div className="app">
-        <nav className="navbar">
-          <div className="navbar-brand">
-            <h2>TakeALot</h2>
-          </div>
-          <div className="navbar-links">
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-            <Link to="/products" className="nav-link">
-              Products
-            </Link>
-            <Link to="/pos" className="nav-link">
-              POS
-            </Link>
-            <Link to="/settings" className="nav-link">
-              Settings
-            </Link>
-          </div>
-        </nav>
-
-        <main className="main-content">
+    <div className="app-container">
+      <div className="dashboard-layout">
+        <Sidebar />
+        <div className="main-content">
+          <Topbar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/products" element={<Products />} />
             <Route path="/pos" element={<POS />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/users" element={<Users />} />
           </Routes>
-        </main>
+        </div>
       </div>
-    </Router>
+    </div>
   );
 }
 

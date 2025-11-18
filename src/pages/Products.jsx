@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/Products.css";
+import "../styles/main.css";
 
 const Products = () => {
   const [products, setProducts] = useState([
@@ -173,63 +173,18 @@ const Products = () => {
   };
 
   return (
-    <div className="products-page">
-      <div className="products-header">
-        <h1>Products</h1>
-        <button className="btn-primary" onClick={handleAddProduct}>
-          <span className="icon">+</span> Add Product
-        </button>
-      </div>
+    <div className="page">
+      <h1 className="page-title">Product Management</h1>
 
-      <div className="products-controls">
-        <div className="search-bar">
-          <span className="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Search by product name or SKU..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className="table-card">
+        <div className="table-header">
+          <h3 className="table-title">Products</h3>
+          <button className="btn-primary" onClick={handleAddProduct}>
+            + Add Product
+          </button>
         </div>
 
-        <div className="filters">
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="filter-select"
-          >
-            <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={stockFilter}
-            onChange={(e) => setStockFilter(e.target.value)}
-            className="filter-select"
-          >
-            <option value="all">All Stock Status</option>
-            <option value="in-stock">In Stock</option>
-            <option value="out-of-stock">Out of Stock</option>
-          </select>
-
-          <select
-            value={buyBoxFilter}
-            onChange={(e) => setBuyBoxFilter(e.target.value)}
-            className="filter-select"
-          >
-            <option value="all">All Buy Box</option>
-            <option value="yes">Buy Box: Yes</option>
-            <option value="no">Buy Box: No</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="products-table-container">
-        <table className="products-table">
+        <table className="data-table">
           <thead>
             <tr>
               <th>SKU</th>
@@ -245,13 +200,13 @@ const Products = () => {
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <tr key={product.id}>
-                  <td className="sku-cell">{product.sku}</td>
-                  <td className="name-cell">{product.name}</td>
-                  <td className="price-cell">${product.price.toFixed(2)}</td>
-                  <td className="stock-cell">
+                  <td>{product.sku}</td>
+                  <td>{product.name}</td>
+                  <td>${product.price.toFixed(2)}</td>
+                  <td>
                     <span
-                      className={`stock-badge ${
-                        product.stock === 0 ? "out-of-stock" : "in-stock"
+                      className={`badge ${
+                        product.stock === 0 ? "badge-warning" : "badge-success"
                       }`}
                     >
                       {product.stock === 0
@@ -259,39 +214,38 @@ const Products = () => {
                         : `${product.stock} units`}
                     </span>
                   </td>
-                  <td className="category-cell">
-                    <span className="category-badge">{product.category}</span>
-                  </td>
-                  <td className="buybox-cell">
+                  <td>{product.category}</td>
+                  <td>
                     <span
-                      className={`buybox-badge ${
-                        product.buyBox ? "yes" : "no"
+                      className={`badge ${
+                        product.buyBox ? "badge-success" : "badge-pending"
                       }`}
                     >
-                      {product.buyBox ? "✓ Yes" : "✗ No"}
+                      {product.buyBox ? "Yes" : "No"}
                     </span>
                   </td>
-                  <td className="actions-cell">
+                  <td>
                     <button
-                      className="btn-icon btn-edit"
+                      className="btn-edit"
                       onClick={() => handleEditProduct(product)}
-                      title="Edit"
                     >
-                      ✏️
+                      Edit
                     </button>
                     <button
-                      className="btn-icon btn-delete"
+                      className="btn-delete"
                       onClick={() => handleDeleteProduct(product.id)}
-                      title="Delete"
                     >
-                      🗑️
+                      Delete
                     </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="no-results">
+                <td
+                  colSpan="7"
+                  style={{ textAlign: "center", padding: "2rem" }}
+                >
                   No products found matching your criteria
                 </td>
               </tr>
@@ -312,24 +266,30 @@ const Products = () => {
 
             <form onSubmit={handleSubmit} className="product-form">
               <div className="form-group">
-                <label htmlFor="sku">SKU *</label>
+                <label className="form-label" htmlFor="sku">
+                  SKU *
+                </label>
                 <input
                   type="text"
                   id="sku"
                   name="sku"
+                  className="form-input"
                   value={formData.sku}
                   onChange={handleFormChange}
                   required
-                  placeholder="Enter SKU"
+                  placeholder="Enter SKU (e.g., SKU001)"
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="name">Product Name *</label>
+                <label className="form-label" htmlFor="name">
+                  Product Name *
+                </label>
                 <input
                   type="text"
                   id="name"
                   name="name"
+                  className="form-input"
                   value={formData.name}
                   onChange={handleFormChange}
                   required
@@ -339,11 +299,14 @@ const Products = () => {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="price">Price *</label>
+                  <label className="form-label" htmlFor="price">
+                    Price *
+                  </label>
                   <input
                     type="number"
                     id="price"
                     name="price"
+                    className="form-input"
                     value={formData.price}
                     onChange={handleFormChange}
                     required
@@ -354,11 +317,14 @@ const Products = () => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="stock">Stock *</label>
+                  <label className="form-label" htmlFor="stock">
+                    Stock *
+                  </label>
                   <input
                     type="number"
                     id="stock"
                     name="stock"
+                    className="form-input"
                     value={formData.stock}
                     onChange={handleFormChange}
                     required
@@ -369,15 +335,18 @@ const Products = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="category">Category *</label>
+                <label className="form-label" htmlFor="category">
+                  Category *
+                </label>
                 <input
                   type="text"
                   id="category"
                   name="category"
+                  className="form-input"
                   value={formData.category}
                   onChange={handleFormChange}
                   required
-                  placeholder="Enter category"
+                  placeholder="e.g., Electronics, Accessories"
                 />
               </div>
 
@@ -389,20 +358,20 @@ const Products = () => {
                     checked={formData.buyBox}
                     onChange={handleFormChange}
                   />
-                  <span>Buy Box</span>
+                  <span>Has Buy Box</span>
                 </label>
               </div>
 
               <div className="form-actions">
                 <button
                   type="button"
-                  className="btn-secondary"
+                  className="btn-edit"
                   onClick={handleCloseModal}
                 >
                   Cancel
                 </button>
                 <button type="submit" className="btn-primary">
-                  {editingProduct ? "Update Product" : "Add Product"}
+                  {editingProduct ? "💾 Update Product" : "✓ Add Product"}
                 </button>
               </div>
             </form>

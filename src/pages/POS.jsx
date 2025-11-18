@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/POS.css";
+import "../styles/main.css";
 
 const POS = () => {
   // Sample products database
@@ -116,25 +116,15 @@ const POS = () => {
   };
 
   return (
-    <div className="pos-page">
+    <div className="page">
+      <h1 className="page-title">Point of Sale</h1>
+
       <div className="pos-container">
         {/* Left Panel - Product Selection */}
-        <div className="pos-left-panel">
-          <div className="panel-header">
-            <h2>Products</h2>
-          </div>
+        <div className="pos-left">
+          <div className="section-title">Products</div>
 
-          <div className="product-search">
-            <span className="search-icon">🔍</span>
-            <input
-              type="text"
-              placeholder="Search products by name or SKU..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          <div className="product-list">
+          <div className="product-grid">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <div
@@ -142,137 +132,172 @@ const POS = () => {
                   className="product-card"
                   onClick={() => addToCart(product)}
                 >
-                  <div className="product-info">
-                    <h4>{product.name}</h4>
-                    <p className="product-sku">{product.sku}</p>
+                  <div className="product-name">{product.name}</div>
+                  <div className="product-price">
+                    ${product.price.toFixed(2)}
                   </div>
-                  <div className="product-details">
-                    <span className="product-price">
-                      ${product.price.toFixed(2)}
-                    </span>
-                    <span
-                      className={`product-stock ${
-                        product.stock < 20 ? "low" : ""
-                      }`}
-                    >
-                      {product.stock} in stock
-                    </span>
-                  </div>
+                  <button className="btn-add">Add to Cart</button>
                 </div>
               ))
             ) : (
-              <div className="no-products">
-                <p>No products found</p>
+              <div
+                style={{
+                  gridColumn: "1 / -1",
+                  textAlign: "center",
+                  padding: "2rem",
+                  color: "var(--muted-foreground)",
+                }}
+              >
+                No products found
               </div>
             )}
           </div>
         </div>
 
         {/* Right Panel - Cart & Checkout */}
-        <div className="pos-right-panel">
-          <div className="panel-header">
-            <h2>Cart</h2>
-            {cart.length > 0 && (
-              <button className="clear-cart-btn" onClick={() => setCart([])}>
-                Clear All
-              </button>
-            )}
-          </div>
+        <div className="pos-right">
+          <div className="section-title">Cart</div>
 
           <div className="cart-items">
             {cart.length > 0 ? (
               cart.map((item) => (
-                <div key={item.id} className="cart-item">
-                  <div className="cart-item-header">
-                    <h4>{item.name}</h4>
+                <div
+                  key={item.id}
+                  style={{
+                    padding: "1rem",
+                    borderBottom: "1px solid var(--border)",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    <strong>{item.name}</strong>
                     <button
-                      className="remove-btn"
                       onClick={() => removeFromCart(item.id)}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        color: "var(--danger)",
+                        fontSize: "1.2rem",
+                      }}
                     >
-                      ✕
+                      ×
                     </button>
                   </div>
-                  <div className="cart-item-details">
-                    <div className="quantity-control">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "0.5rem",
+                        alignItems: "center",
+                      }}
+                    >
                       <button
                         onClick={() =>
                           updateQuantity(item.id, item.quantity - 1)
                         }
+                        className="btn-edit"
+                        style={{ padding: "0.25rem 0.5rem" }}
                       >
                         −
                       </button>
-                      <input
-                        type="number"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          updateQuantity(item.id, parseInt(e.target.value) || 0)
-                        }
-                        min="0"
-                      />
+                      <span>{item.quantity}</span>
                       <button
                         onClick={() =>
                           updateQuantity(item.id, item.quantity + 1)
                         }
+                        className="btn-edit"
+                        style={{ padding: "0.25rem 0.5rem" }}
                       >
                         +
                       </button>
                     </div>
-                    <div className="item-pricing">
-                      <span className="unit-price">
-                        ${item.price.toFixed(2)} each
-                      </span>
-                      <span className="item-subtotal">
-                        ${(item.price * item.quantity).toFixed(2)}
-                      </span>
-                    </div>
+                    <span style={{ fontWeight: "bold" }}>
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="empty-cart">
-                <div className="empty-cart-icon">🛒</div>
-                <p>Your cart is empty</p>
-                <span>Add products from the left panel</span>
-              </div>
+              <div className="empty-cart">Your cart is empty</div>
             )}
           </div>
 
           {cart.length > 0 && (
             <>
-              <div className="cart-summary">
-                <div className="summary-row">
+              <div className="cart-total">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   <span>Subtotal:</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="summary-row">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "0.5rem",
+                  }}
+                >
                   <span>Tax (15%):</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
-                <div className="summary-row total">
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: "1rem",
+                    fontSize: "1.25rem",
+                    fontWeight: "bold",
+                  }}
+                >
                   <span>Total:</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
-              </div>
 
-              <div className="payment-section">
-                <label htmlFor="payment-method">Payment Method</label>
-                <select
-                  id="payment-method"
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="payment-select"
-                >
-                  <option value="cash">Cash</option>
-                  <option value="card">Credit/Debit Card</option>
-                  <option value="mobile">Mobile Payment</option>
-                  <option value="bank-transfer">Bank Transfer</option>
-                </select>
-              </div>
+                <div style={{ marginBottom: "1rem" }}>
+                  <label
+                    htmlFor="payment-method"
+                    style={{
+                      display: "block",
+                      marginBottom: "0.5rem",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Payment Method
+                  </label>
+                  <select
+                    id="payment-method"
+                    value={paymentMethod}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="form-select"
+                  >
+                    <option value="cash">Cash</option>
+                    <option value="card">Credit/Debit Card</option>
+                    <option value="mobile">Mobile Payment</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                  </select>
+                </div>
 
-              <button className="checkout-btn" onClick={handleCheckout}>
-                <span className="checkout-icon">💳</span>
-                Checkout - ${total.toFixed(2)}
-              </button>
+                <button className="btn-checkout" onClick={handleCheckout}>
+                  Complete Checkout
+                </button>
+              </div>
             </>
           )}
         </div>
