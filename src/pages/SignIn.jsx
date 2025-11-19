@@ -1,16 +1,11 @@
-import { UserButton } from '@clerk/clerk-react';
+import { SignIn } from "@clerk/clerk-react";
 
-function Topbar() {
+function SignInPage() {
   return (
-    <header className="topbar">
-      <div className="topbar-content">
-        <h1 className="topbar-title">CRM Dashboard</h1>
-        <div className="topbar-user">
-          <UserButton afterSignOutUrl="/sign-in" />
-        </div>
-      </div>
-    </header>
+    <div className="auth-page">
+      <SignIn routing="path" path="/sign-in" />
+    </div>
   );
 }
 
-export default Topbar;
+export default SignInPage;
