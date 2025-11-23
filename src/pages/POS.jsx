@@ -388,9 +388,6 @@ const POS = () => {
             </div>
 
             <div className="receipt-actions">
-              <button className="btn-secondary" onClick={handleCloseReceipt}>
-                Close
-              </button>
               <button className="btn-primary" onClick={() => window.print()}>
                 🖨️ Print Receipt
               </button>
