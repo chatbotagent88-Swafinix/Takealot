@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 
+import { RBACProvider } from "./context/RBACContext";
+import RoleProtectedRoute from "./components/RoleProtectedRoute"; // NEW - For RBAC
+
 import Sidebar from "./components/Sidebar";
 import Topbar from "./components/Topbar";
 
@@ -12,49 +15,83 @@ import Users from "./pages/Users";
 
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-
-// ✅ Unauthorized Page Import
 import Unauthorized from "./pages/Unautorized";
 
 function App() {
   return (
     <>
-      {/* When NOT logged in → Show SignIn / SignUp only */}
       <SignedOut>
         <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-
-          {/* Any other route redirects to sign-in */}
           <Route path="*" element={<Navigate to="/sign-in" />} />
         </Routes>
       </SignedOut>
 
-      {/* When logged in → Show dashboard layout */}
       <SignedIn>
-        <div className="app-container">
-          <div className="dashboard-layout">
-            <Sidebar />
-            <div className="main-content">
-              <Topbar />
+        <RBACProvider>
+          <div className="app-container">
+            <div className="dashboard-layout">
+              <Sidebar />
+              <div className="main-content">
+                <Topbar />
 
-              <Routes>
-                <Route path="/" element={<Navigate to="/dashboard" />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/pos" element={<POS />} />
-                <Route path="/settings" element={<Settings />} />
-                <Route path="/users" element={<Users />} />
+                <Routes>
+                  <Route path="/" element={<Navigate to="/dashboard" />} />
 
-                {/* ✅ Unauthorized Page Route */}
-                <Route path="/unauthorized" element={<Unauthorized />} />
+                  {/* Protected by role-based access control */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <RoleProtectedRoute permission="dashboard">
+                        <Dashboard />
+                      </RoleProtectedRoute>
+                    }
+                  />
 
-                {/* Optional: Unknown routes → go to dashboard */}
-                <Route path="*" element={<Navigate to="/dashboard" />} />
-              </Routes>
+                  <Route
+                    path="/products"
+                    element={
+                      <RoleProtectedRoute permission="productsView">
+                        <Products />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/pos"
+                    element={
+                      <RoleProtectedRoute permission="pos">
+                        <POS />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/settings"
+                    element={
+                      <RoleProtectedRoute permission="settings">
+                        <Settings />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/users"
+                    element={
+                      <RoleProtectedRoute permission="users">
+                        <Users />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route path="/unauthorized" element={<Unauthorized />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
+                </Routes>
+              </div>
             </div>
           </div>
-        </div>
+        </RBACProvider>
       </SignedIn>
     </>
   );

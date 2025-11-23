@@ -1464,3 +1464,31 @@ body {
 .auth-switch a:hover {
   text-decoration: underline;
 }
+
+.role-badge {
+  position: relative;
+  cursor: default;
+  font-size: 20px;
+}
+
+.role-badge:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s ease;
+  pointer-events: none;
+}
