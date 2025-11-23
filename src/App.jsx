@@ -13,6 +13,9 @@ import Users from "./pages/Users";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 
+// ✅ Unauthorized Page Import
+import Unauthorized from "./pages/Unautorized";
+
 function App() {
   return (
     <>
@@ -21,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
+
           {/* Any other route redirects to sign-in */}
           <Route path="*" element={<Navigate to="/sign-in" />} />
         </Routes>
@@ -33,6 +37,7 @@ function App() {
             <Sidebar />
             <div className="main-content">
               <Topbar />
+
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" />} />
                 <Route path="/dashboard" element={<Dashboard />} />
@@ -40,6 +45,12 @@ function App() {
                 <Route path="/pos" element={<POS />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/users" element={<Users />} />
+
+                {/* ✅ Unauthorized Page Route */}
+                <Route path="/unauthorized" element={<Unauthorized />} />
+
+                {/* Optional: Unknown routes → go to dashboard */}
+                <Route path="*" element={<Navigate to="/dashboard" />} />
               </Routes>
             </div>
           </div>
