@@ -1,51 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import DataTable from "../components/DataTable";
 
 function Users() {
   const [users, setUsers] = useState([
     {
       id: 1,
-      name: 'John Admin',
-      email: 'admin@crm.com',
-      role: 'Admin',
-      status: 'Active',
-      joined: 'Jan 15, 2025'
+      name: "John Admin",
+      email: "admin@crm.com",
+      role: "Admin",
+      status: "Active",
+      joined: "Jan 15, 2025",
     },
     {
       id: 2,
-      name: 'Sarah Manager',
-      email: 'manager@crm.com',
-      role: 'Manager',
-      status: 'Active',
-      joined: 'Feb 01, 2025'
+      name: "Sarah Manager",
+      email: "manager@crm.com",
+      role: "Manager",
+      status: "Active",
+      joined: "Feb 01, 2025",
     },
     {
       id: 3,
-      name: 'Mike Staff',
-      email: 'staff@crm.com',
-      role: 'Staff',
-      status: 'Active',
-      joined: 'Mar 10, 2025'
-    }
+      name: "Mike Staff",
+      email: "staff@crm.com",
+      role: "Staff",
+      status: "Active",
+      joined: "Mar 10, 2025",
+    },
   ]);
 
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    role: 'Staff',
-    status: 'Active',
-    joined: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    name: "",
+    email: "",
+    role: "Staff",
+    status: "Active",
+    joined: new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }),
   });
 
   const handleAddUser = () => {
     setEditingUser(null);
     setFormData({
-      name: '',
-      email: '',
-      role: 'Staff',
-      status: 'Active',
-      joined: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      name: "",
+      email: "",
+      role: "Staff",
+      status: "Active",
+      joined: new Date().toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
     });
     setShowModal(true);
   };
@@ -57,164 +66,231 @@ function Users() {
       email: user.email,
       role: user.role,
       status: user.status,
-      joined: user.joined
+      joined: user.joined,
     });
     setShowModal(true);
   };
 
   const handleDeleteUser = (userId) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      setUsers(users.filter(user => user.id !== userId));
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      setUsers(users.filter((user) => user.id !== userId));
     }
   };
 
   const handleSubmit = () => {
     if (!formData.name || !formData.email) {
-      alert('Please fill in all required fields');
+      alert("Please fill in all required fields");
       return;
     }
 
     if (editingUser) {
-      setUsers(users.map(user => 
-        user.id === editingUser.id 
-          ? { ...user, ...formData }
-          : user
-      ));
+      setUsers(
+        users.map((user) =>
+          user.id === editingUser.id ? { ...user, ...formData } : user
+        )
+      );
     } else {
       setUsers([...users, { ...formData, id: Date.now() }]);
     }
-    
+
     setShowModal(false);
     setEditingUser(null);
   };
 
   const getRoleBadgeClass = (role) => {
-    if (role === 'Admin') return 'badge-success';
-    if (role === 'Manager') return 'badge-pending';
-    return '';
+    if (role === "Admin") return "badge-success";
+    if (role === "Manager") return "badge-pending";
+    return "";
   };
+
+  // Define table columns
+  const columns = [
+    {
+      key: "name",
+      label: "Name",
+      sortable: true,
+    },
+    {
+      key: "email",
+      label: "Email",
+      sortable: true,
+    },
+    {
+      key: "role",
+      label: "Role",
+      sortable: true,
+      render: (user) => (
+        <span className={`badge ${getRoleBadgeClass(user.role)}`}>
+          {user.role}
+        </span>
+      ),
+    },
+    {
+      key: "status",
+      label: "Status",
+      sortable: true,
+      render: (user) => (
+        <span
+          className={`badge ${user.status === "Active" ? "badge-success" : ""}`}
+        >
+          {user.status}
+        </span>
+      ),
+    },
+    {
+      key: "joined",
+      label: "Joined",
+      sortable: true,
+    },
+    {
+      key: "actions",
+      label: "Actions",
+      sortable: false,
+      render: (user) => (
+        <>
+          <button className="btn-edit" onClick={() => handleEditUser(user)}>
+            Edit
+          </button>
+          <button
+            className="btn-delete"
+            onClick={() => handleDeleteUser(user.id)}
+          >
+            Delete
+          </button>
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className="page">
       <h1 className="page-title">User Management</h1>
-      
+
       <div className="table-card">
         <div className="table-header">
           <h3 className="table-title">Users</h3>
-          <button className="btn-primary" onClick={handleAddUser}>Add User</button>
+          <button className="btn-primary" onClick={handleAddUser}>
+            Add User
+          </button>
         </div>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Joined</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>
-                  <span className={`badge ${getRoleBadgeClass(user.role)}`}>
-                    {user.role}
-                  </span>
-                </td>
-                <td>
-                  <span className={`badge ${user.status === 'Active' ? 'badge-success' : ''}`}>
-                    {user.status}
-                  </span>
-                </td>
-                <td>{user.joined}</td>
-                <td>
-                  <button className="btn-edit" onClick={() => handleEditUser(user)}>Edit</button>
-                  <button className="btn-delete" onClick={() => handleDeleteUser(user.id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <DataTable
+          data={users}
+          columns={columns}
+          searchPlaceholder="Search users by name, email, role..."
+          itemsPerPageOptions={[5, 10, 25]}
+          defaultItemsPerPage={10}
+        />
       </div>
 
       {showModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000
-        }}>
-          <div style={{
-            backgroundColor: 'white',
-            padding: '24px',
-            borderRadius: '8px',
-            width: '90%',
-            maxWidth: '500px',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
-          }}>
-            <h2 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>
-              {editingUser ? 'Edit User' : 'Add New User'}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "24px",
+              borderRadius: "8px",
+              width: "90%",
+              maxWidth: "500px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <h2
+              style={{
+                marginBottom: "20px",
+                fontSize: "24px",
+                fontWeight: "bold",
+              }}
+            >
+              {editingUser ? "Edit User" : "Add New User"}
             </h2>
-            
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "500",
+                }}
+              >
                 Name
               </label>
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '14px'
+                  width: "100%",
+                  padding: "8px 12px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  fontSize: "14px",
                 }}
               />
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "500",
+                }}
+              >
                 Email
               </label>
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '14px'
+                  width: "100%",
+                  padding: "8px 12px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  fontSize: "14px",
                 }}
               />
             </div>
 
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+            <div style={{ marginBottom: "16px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "500",
+                }}
+              >
                 Role
               </label>
               <select
                 value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, role: e.target.value })
+                }
                 style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  backgroundColor: 'white'
+                  width: "100%",
+                  padding: "8px 12px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  fontSize: "14px",
+                  backgroundColor: "white",
                 }}
               >
                 <option value="Staff">Staff</option>
@@ -223,20 +299,28 @@ function Users() {
               </select>
             </div>
 
-            <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+            <div style={{ marginBottom: "24px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "500",
+                }}
+              >
                 Status
               </label>
               <select
                 value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
                 style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  backgroundColor: 'white'
+                  width: "100%",
+                  padding: "8px 12px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  fontSize: "14px",
+                  backgroundColor: "white",
                 }}
               >
                 <option value="Active">Active</option>
@@ -244,13 +328,13 @@ function Users() {
               </select>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ display: "flex", gap: "12px" }}>
               <button
                 onClick={handleSubmit}
                 className="btn-primary"
                 style={{ flex: 1 }}
               >
-                {editingUser ? 'Update User' : 'Add User'}
+                {editingUser ? "Update User" : "Add User"}
               </button>
               <button
                 onClick={() => {
@@ -259,11 +343,11 @@ function Users() {
                 }}
                 style={{
                   flex: 1,
-                  padding: '8px 16px',
-                  border: '1px solid #ddd',
-                  borderRadius: '4px',
-                  backgroundColor: 'white',
-                  cursor: 'pointer'
+                  padding: "8px 16px",
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  backgroundColor: "white",
+                  cursor: "pointer",
                 }}
               >
                 Cancel
@@ -328,29 +412,6 @@ function Users() {
         }
         .btn-primary:hover {
           background-color: #2563eb;
-        }
-        .data-table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-        .data-table th {
-          text-align: left;
-          padding: 18px 32px;
-          background-color: #f8fafc;
-          font-weight: 600;
-          color: #64748b;
-          font-size: 14px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-        .data-table td {
-          padding: 24px 32px;
-          border-top: 1px solid #e2e8f0;
-          color: #334155;
-          font-size: 15px;
-        }
-        .data-table tr:hover {
-          background-color: #f8fafc;
         }
         .badge {
           display: inline-block;

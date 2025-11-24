@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../styles/main.css";
+import DataTable from "../components/DataTable";
 
 const Products = () => {
   const [products, setProducts] = useState([
@@ -172,6 +173,118 @@ const Products = () => {
     handleCloseModal();
   };
 
+  // Define table columns
+  const columns = [
+    {
+      key: "sku",
+      label: "SKU",
+      sortable: true,
+    },
+    {
+      key: "name",
+      label: "Product Name",
+      sortable: true,
+    },
+    {
+      key: "price",
+      label: "Price",
+      sortable: true,
+      render: (product) => `$${product.price.toFixed(2)}`,
+    },
+    {
+      key: "stock",
+      label: "Stock",
+      sortable: true,
+      render: (product) => (
+        <span
+          className={`badge ${
+            product.stock === 0 ? "badge-warning" : "badge-success"
+          }`}
+        >
+          {product.stock === 0 ? "Out of Stock" : `${product.stock} units`}
+        </span>
+      ),
+    },
+    {
+      key: "category",
+      label: "Category",
+      sortable: true,
+    },
+    {
+      key: "buyBox",
+      label: "Buy Box",
+      sortable: true,
+      render: (product) => (
+        <span
+          className={`badge ${
+            product.buyBox ? "badge-success" : "badge-pending"
+          }`}
+        >
+          {product.buyBox ? "Yes" : "No"}
+        </span>
+      ),
+    },
+    {
+      key: "actions",
+      label: "Actions",
+      sortable: false,
+      render: (product) => (
+        <>
+          <button
+            className="btn-edit"
+            onClick={() => handleEditProduct(product)}
+          >
+            Edit
+          </button>
+          <button
+            className="btn-delete"
+            onClick={() => handleDeleteProduct(product.id)}
+          >
+            Delete
+          </button>
+        </>
+      ),
+    },
+  ];
+
+  // Custom filters component
+  const customFilters = (
+    <>
+      <select
+        value={categoryFilter}
+        onChange={(e) => setCategoryFilter(e.target.value)}
+        className="filter-select"
+      >
+        <option value="all">All Categories</option>
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
+
+      <select
+        value={stockFilter}
+        onChange={(e) => setStockFilter(e.target.value)}
+        className="filter-select"
+      >
+        <option value="all">All Stock</option>
+        <option value="in-stock">In Stock</option>
+        <option value="out-of-stock">Out of Stock</option>
+      </select>
+
+      <select
+        value={buyBoxFilter}
+        onChange={(e) => setBuyBoxFilter(e.target.value)}
+        className="filter-select"
+      >
+        <option value="all">All Buy Box</option>
+        <option value="yes">Has Buy Box</option>
+        <option value="no">No Buy Box</option>
+      </select>
+    </>
+  );
+
   return (
     <div className="page">
       <h1 className="page-title">Product Management</h1>
@@ -184,74 +297,14 @@ const Products = () => {
           </button>
         </div>
 
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>SKU</th>
-              <th>Product Name</th>
-              <th>Price</th>
-              <th>Stock</th>
-              <th>Category</th>
-              <th>Buy Box</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
-                <tr key={product.id}>
-                  <td>{product.sku}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price.toFixed(2)}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        product.stock === 0 ? "badge-warning" : "badge-success"
-                      }`}
-                    >
-                      {product.stock === 0
-                        ? "Out of Stock"
-                        : `${product.stock} units`}
-                    </span>
-                  </td>
-                  <td>{product.category}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        product.buyBox ? "badge-success" : "badge-pending"
-                      }`}
-                    >
-                      {product.buyBox ? "Yes" : "No"}
-                    </span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn-edit"
-                      onClick={() => handleEditProduct(product)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn-delete"
-                      onClick={() => handleDeleteProduct(product.id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="7"
-                  style={{ textAlign: "center", padding: "2rem" }}
-                >
-                  No products found matching your criteria
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <DataTable
+          data={filteredProducts}
+          columns={columns}
+          searchPlaceholder="Search products by SKU, name..."
+          itemsPerPageOptions={[5, 10, 25, 50]}
+          defaultItemsPerPage={10}
+          customFilters={customFilters}
+        />
       </div>
 
       {showModal && (
