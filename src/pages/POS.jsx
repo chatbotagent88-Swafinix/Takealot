@@ -122,29 +122,38 @@ const POS = () => {
       <div className="pos-container">
         {/* Left Panel - Product Selection */}
         <div className="pos-left">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-            <div className="section-title" style={{ margin: 0 }}>Products</div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <div className="section-title" style={{ margin: 0 }}>
+              Products
+            </div>
             <input
               type="text"
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{
-                width: '300px',
-                padding: '10px 16px',
-                border: '1px solid #e2e8f0',
-                borderRadius: '8px',
-                fontSize: '14px',
-                transition: 'all 0.2s',
-                outline: 'none'
+                width: "300px",
+                padding: "10px 16px",
+                border: "1px solid #e2e8f0",
+                borderRadius: "8px",
+                fontSize: "14px",
+                transition: "all 0.2s",
+                outline: "none",
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#3b82f6';
-                e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                e.target.style.borderColor = "#3b82f6";
+                e.target.style.boxShadow = "0 0 0 3px rgba(59, 130, 246, 0.1)";
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = '#e2e8f0';
-                e.target.style.boxShadow = 'none';
+                e.target.style.borderColor = "#e2e8f0";
+                e.target.style.boxShadow = "none";
               }}
             />
           </div>
