@@ -26,7 +26,7 @@ function Topbar() {
             <input
               type="text"
               className="search-input"
-              placeholder="Search products, orders, customers..."
+              placeholder="Search by title, TSIN, SKU, barcode, or POS code..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -35,6 +35,55 @@ function Topbar() {
         </div>
 
         <div className="topbar-right">
+          <div className="topbar-actions" style={{ marginRight: 8 }}>
+            <button className="btn-action btn-green" title="Calculating">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2v4"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+                <path
+                  d="M12 18v4"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+                <path
+                  d="M4.93 4.93l2.83 2.83"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <span>Calculating...</span>
+            </button>
+
+            <button className="btn-action btn-blue" title="Refresh View">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M21 12a9 9 0 1 0-3.2 6.71"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+                <path
+                  d="M21 12v-4h-4"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                ></path>
+              </svg>
+              <span>Refresh View</span>
+            </button>
+          </div>
+
           <button className="topbar-icon-btn" title="Notifications">
             <svg
               width="20"

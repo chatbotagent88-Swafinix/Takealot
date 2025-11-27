@@ -6,48 +6,83 @@ const Products = () => {
   const [products, setProducts] = useState([
     {
       id: 1,
-      sku: "SKU001",
-      name: "Wireless Mouse",
-      price: 29.99,
-      stock: 150,
-      category: "Electronics",
+      sku: "R35-RS84NET",
+      tsin: "98320356",
+      name: "6mmx2mm 100 Piece Refrigerator Magnets",
+      price: 228,
+      rrp: 199,
+      stock: 17,
+      asl: 78,
+      sl: 58,
+      rq: 39,
+      posCode: "CO:45 SCO:114",
+      prfLos: "R114",
       buyBox: true,
+      image: "https://via.placeholder.com/56?text=Mag",
     },
     {
       id: 2,
-      sku: "SKU002",
-      name: "Mechanical Keyboard",
-      price: 89.99,
-      stock: 45,
-      category: "Electronics",
+      sku: "C16-M109-1c",
+      tsin: "76257553",
+      name: "Tablecloth Clips 6pc",
+      price: 149,
+      rrp: 199,
+      stock: 0,
+      asl: 19,
+      sl: 10,
+      rq: 15,
+      posCode: "-",
+      prfLos: null,
       buyBox: false,
+      image: "https://via.placeholder.com/56?text=Clips",
     },
     {
       id: 3,
-      sku: "SKU003",
-      name: "USB-C Cable",
-      price: 12.99,
-      stock: 0,
-      category: "Accessories",
+      sku: "C31-M139-B",
+      tsin: "93545462",
+      name: "Cherry Stoner/Cherry Core Pitter - Black",
+      price: 159,
+      rrp: 199,
+      stock: 12,
+      asl: 36,
+      sl: 27,
+      rq: 12,
+      posCode: "-",
+      prfLos: null,
       buyBox: true,
+      image: "https://via.placeholder.com/56?text=Cherry",
     },
     {
       id: 4,
-      sku: "SKU004",
-      name: "Laptop Stand",
-      price: 45.5,
-      category: "Accessories",
-      stock: 78,
-      buyBox: false,
+      sku: "C400-M630-T",
+      tsin: "91279750",
+      name: "Heavy Duty Cash Drawer",
+      price: 847,
+      rrp: 1299,
+      stock: 14,
+      asl: 33,
+      sl: 20,
+      rq: 11,
+      posCode: "-",
+      prfLos: null,
+      buyBox: true,
+      image: "https://via.placeholder.com/56?text=Drawer",
     },
     {
       id: 5,
-      sku: "SKU005",
-      name: "Webcam HD",
-      price: 65.0,
-      stock: 23,
-      category: "Electronics",
-      buyBox: true,
+      sku: "C30+M79+B19",
+      tsin: "78767878",
+      name: "Kids Fun Swimming Boat Inflatable Assorted Blues",
+      price: 187,
+      rrp: 199,
+      stock: 0,
+      asl: 16,
+      sl: 11,
+      rq: 9,
+      posCode: "CO:40 SCO:108",
+      prfLos: "R79",
+      buyBox: false,
+      image: "https://via.placeholder.com/56?text=Boat",
     },
   ]);
 
@@ -176,73 +211,123 @@ const Products = () => {
   // Define table columns
   const columns = [
     {
-      key: "sku",
-      label: "SKU",
-      sortable: true,
-    },
-    {
-      key: "name",
-      label: "Product Name",
-      sortable: true,
-    },
-    {
-      key: "price",
-      label: "Price",
-      sortable: true,
-      render: (product) => `$${product.price.toFixed(2)}`,
-    },
-    {
-      key: "stock",
-      label: "Stock",
-      sortable: true,
-      render: (product) => (
-        <span
-          className={`badge ${
-            product.stock === 0 ? "badge-warning" : "badge-success"
-          }`}
+      key: "image",
+      label: "IMAGE",
+      sortable: false,
+      width: "80px",
+      render: (p) => (
+        <div
+          style={{ width: 56, height: 56, borderRadius: 6, overflow: "hidden" }}
         >
-          {product.stock === 0 ? "Out of Stock" : `${product.stock} units`}
+          <img
+            src={p.image}
+            alt="img"
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </div>
+      ),
+    },
+    {
+      key: "details",
+      label: "DETAILS",
+      sortable: false,
+      render: (p) => (
+        <div>
+          <div style={{ fontWeight: 800 }}>{p.name}</div>
+          <div style={{ color: "#64748b", fontSize: 12, marginTop: 6 }}>
+            SKU: {p.sku} | TSIN: {p.tsin}
+          </div>
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      label: "STATUS",
+      sortable: false,
+      width: "120px",
+      render: (p) => (
+        <span className={`pill ${p.buyBox ? "success" : "warn"}`}>
+          {p.buyBox ? "Buyable" : "Not Buyable"}
         </span>
       ),
     },
     {
-      key: "category",
-      label: "Category",
+      key: "price",
+      label: "PRICE",
       sortable: true,
+      render: (p) => (
+        <div>
+          <div className="price-link">R{p.price}</div>
+          <div style={{ fontSize: 12, color: "#94a3b8" }}>RRP: R{p.rrp}</div>
+        </div>
+      ),
     },
     {
-      key: "buyBox",
-      label: "Buy Box",
+      key: "stock",
+      label: "STOCK",
       sortable: true,
-      render: (product) => (
-        <span
-          className={`badge ${
-            product.buyBox ? "badge-success" : "badge-pending"
-          }`}
-        >
-          {product.buyBox ? "Yes" : "No"}
+      render: (p) => (
+        <span className={p.stock === 0 ? "num-red" : "num-green"}>
+          {p.stock}
         </span>
+      ),
+    },
+    {
+      key: "asl",
+      label: "ASL",
+      sortable: true,
+      render: (p) => <span className="num-purple">{p.asl}</span>,
+    },
+    {
+      key: "sl",
+      label: "SL",
+      sortable: true,
+      render: (p) => <span className="num-orange">{p.sl}</span>,
+    },
+    {
+      key: "rq",
+      label: "RQ",
+      sortable: true,
+      render: (p) => <span className="num-red">{p.rq}</span>,
+    },
+    {
+      key: "poscode",
+      label: "POS CODE",
+      sortable: false,
+      render: (p) => (
+        <div style={{ fontSize: 12, color: "#64748b" }}>{p.posCode}</div>
+      ),
+    },
+    {
+      key: "prflos",
+      label: "PRF-LOS",
+      sortable: false,
+      render: (p) => (
+        <div style={{ color: p.prfLos ? "#10b981" : "#94a3b8" }}>
+          {p.prfLos || "No cost data"}
+        </div>
       ),
     },
     {
       key: "actions",
-      label: "Actions",
+      label: "ACTIONS",
       sortable: false,
-      render: (product) => (
-        <>
-          <button
-            className="btn-edit"
-            onClick={() => handleEditProduct(product)}
-          >
-            Edit
+      render: (p) => (
+        <div className="row-actions">
+          <button className="row-action-btn" title="View">
+            👁️
           </button>
           <button
-            className="btn-delete"
-            onClick={() => handleDeleteProduct(product.id)}
+            className="row-action-btn"
+            title="Edit"
+            onClick={() => handleEditProduct(p)}
           >
-            Delete
+            ✏️
           </button>
-        </>
+          <button className="row-action-btn" title="Add to cart">
+            🛒
+          </button>
+        </div>
       ),
     },
   ];
@@ -287,22 +372,76 @@ const Products = () => {
 
   return (
     <div className="page">
-      <h1 className="page-title">Product Management</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 12,
+        }}
+      >
+        <div>
+          <h1 className="page-title">Takealot Products</h1>
+          <div className="page-subtitle">
+            Total: {products.length} products •{" "}
+            <span style={{ color: "#ef4444" }}>Stale (50h old)</span>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <button className="btn-action btn-green">Calculating...</button>
+          <button className="btn-action btn-blue">Refresh View</button>
+          <button className="btn-action btn-outline">Filter</button>
+        </div>
+      </div>
+
+      <div className="kpi-row">
+        <div className="kpi-card">
+          <div>
+            <div className="kpi-label">Total Products</div>
+            <div className="kpi-number">3 801</div>
+            <div className="kpi-sub">Buyable: 1 426 | Not Buyable: 2 375</div>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div>
+            <div className="kpi-label">Qty Required</div>
+            <div className="kpi-number">414</div>
+            <div className="kpi-sub">Available: 2 137 | On Way: 125</div>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div>
+            <div className="kpi-label">Low Profit &lt; R30</div>
+            <div className="kpi-number">0</div>
+            <div className="kpi-sub">Selling in Loss: 0</div>
+          </div>
+        </div>
+      </div>
 
       <div className="table-card">
-        <div className="table-header">
-          <h3 className="table-title">Products</h3>
-          <button className="btn-primary" onClick={handleAddProduct}>
-            + Add Product
-          </button>
+        <div className="table-header" style={{ alignItems: "flex-start" }}>
+          <div>
+            <h3 className="table-title">Products</h3>
+            <div className="subtle">
+              Search by title, TSIN, SKU, barcode, or POS code...
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button className="btn-primary" onClick={handleAddProduct}>
+              + Add Product
+            </button>
+          </div>
         </div>
 
         <DataTable
           data={filteredProducts}
           columns={columns}
-          searchPlaceholder="Search products by SKU, name..."
-          itemsPerPageOptions={[5, 10, 25, 50]}
-          defaultItemsPerPage={10}
+          searchPlaceholder="Search by title, TSIN, SKU, barcode, or POS code..."
+          itemsPerPageOptions={[25, 50, 100]}
+          defaultItemsPerPage={50}
           customFilters={customFilters}
         />
       </div>

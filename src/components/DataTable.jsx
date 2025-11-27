@@ -281,23 +281,27 @@ const DataTable = ({
 
         .table-wrapper {
           overflow-x: auto;
+          border-radius: 6px;
         }
 
         .data-table {
           width: 100%;
-          border-collapse: collapse;
+          border-collapse: separate;
+          border-spacing: 0;
+          background: white;
         }
 
         .data-table th {
           text-align: left;
-          padding: 18px 24px;
-          background-color: #f8fafc;
-          font-weight: 600;
-          color: #64748b;
+          padding: 14px 20px;
+          background-color: #ffffff;
+          font-weight: 700;
+          color: #475569;
           font-size: 13px;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.6px;
           white-space: nowrap;
+          border-bottom: 1px solid #eef2f7;
         }
 
         .data-table th.sortable {
@@ -337,8 +341,8 @@ const DataTable = ({
         }
 
         .data-table td {
-          padding: 20px 24px;
-          border-top: 1px solid #e2e8f0;
+          padding: 14px 20px;
+          border-top: 1px solid #eef2f7;
           color: #334155;
           font-size: 14px;
         }

@@ -117,7 +117,51 @@ const POS = () => {
 
   return (
     <div className="page">
-      <h1 className="page-title">Point of Sale</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 12,
+        }}
+      >
+        <div>
+          <h1 className="page-title">Takealot Products</h1>
+          <div className="page-subtitle">Total: {products.length} products</div>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          <button className="btn-action btn-green">Calculating...</button>
+          <button className="btn-action btn-blue">Refresh View</button>
+          <button className="btn-action btn-outline">Filter</button>
+        </div>
+      </div>
+
+      <div className="kpi-row">
+        <div className="kpi-card">
+          <div>
+            <div className="kpi-label">Total Products</div>
+            <div className="kpi-number">{products.length}</div>
+            <div className="kpi-sub">Buyable: 4 126 | Not Buyable: 2 375</div>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div>
+            <div className="kpi-label">Qty Required</div>
+            <div className="kpi-number">414</div>
+            <div className="kpi-sub">Available: 2 137 | On Way: 125</div>
+          </div>
+        </div>
+
+        <div className="kpi-card">
+          <div>
+            <div className="kpi-label">Low Profit &lt; R30</div>
+            <div className="kpi-number">0</div>
+            <div className="kpi-sub">Selling in Loss: 0</div>
+          </div>
+        </div>
+      </div>
 
       <div className="pos-container">
         {/* Left Panel - Product Selection */}
@@ -127,35 +171,98 @@ const POS = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              marginBottom: "1.5rem",
+              marginBottom: "1rem",
             }}
           >
-            <div className="section-title" style={{ margin: 0 }}>
-              Products
+            <div className="section-title">Products</div>
+            <div style={{ width: 360 }}>
+              <div className="search-container">
+                <svg
+                  className="search-icon"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="8"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  ></circle>
+                  <path
+                    d="m21 21-4.35-4.35"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  ></path>
+                </svg>
+                <input
+                  className="search-input"
+                  placeholder="Search by title, TSIN, SKU, barcode, or POS code..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="form-input"
-              style={{ width: 300 }}
-            />
           </div>
 
           <div className="product-grid">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="product-card"
-                  onClick={() => addToCart(product)}
-                >
-                  <div className="product-name">{product.name}</div>
-                  <div className="product-price">
-                    ${product.price.toFixed(2)}
+                <div key={product.id} className="product-card">
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div>
+                      <div className="product-name">{product.name}</div>
+                      <div
+                        className="kpi-sub"
+                        style={{ marginTop: 6 }}
+                      >{`SKU: ${product.sku}`}</div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div className="product-price">
+                        R{Math.round(product.price)}
+                      </div>
+                      <div className="kpi-sub">
+                        Stock:{" "}
+                        <span
+                          className={
+                            product.stock === 0 ? "num-red" : "num-green"
+                          }
+                        >
+                          {product.stock}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <button className="btn-add">Add to Cart</button>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginTop: 8,
+                    }}
+                  >
+                    <button
+                      className="btn-add"
+                      onClick={() => addToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button className="row-action-btn" title="View">
+                        🔍
+                      </button>
+                      <button className="row-action-btn" title="Edit">
+                        ✏️
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ))
             ) : (
@@ -166,7 +273,17 @@ const POS = () => {
 
         {/* Right Panel - Cart & Checkout */}
         <div className="pos-right">
-          <div className="section-title">Cart</div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
+            <div className="section-title">Cart</div>
+            <div className="kpi-sub">Items: {cart.length}</div>
+          </div>
 
           <div className="cart-items">
             {cart.length > 0 ? (
@@ -234,7 +351,7 @@ const POS = () => {
                       </button>
                     </div>
                     <span style={{ fontWeight: "bold" }}>
-                      ${(item.price * item.quantity).toFixed(2)}
+                      R{(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
                 </div>
