@@ -40,8 +40,8 @@ function Sidebar() {
               </svg>
             </div>
             <div className="logo-text">
-              <h2 className="sidebar-title">Takealot</h2>
-              <p className="sidebar-subtitle">CRM System</p>
+              <h2 className="sidebar-title">POS System</h2>
+              <p className="sidebar-subtitle">Admin</p>
             </div>
           </div>
 
@@ -55,7 +55,12 @@ function Sidebar() {
           <p className="nav-section-label">Main Menu</p>
 
           {canAccess("/dashboard") && (
-            <NavLink to="/dashboard" className="nav-link">
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               <svg
                 className="nav-icon"
                 width="20"
@@ -77,7 +82,12 @@ function Sidebar() {
           )}
 
           {canAccess("/products") && (
-            <NavLink to="/products" className="nav-link">
+            <NavLink
+              to="/products"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               <svg
                 className="nav-icon"
                 width="20"
@@ -98,7 +108,12 @@ function Sidebar() {
           )}
 
           {canAccess("/pos") && (
-            <NavLink to="/pos" className="nav-link">
+            <NavLink
+              to="/pos"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               <svg
                 className="nav-icon"
                 width="20"
@@ -118,7 +133,12 @@ function Sidebar() {
           )}
 
           {canAccess("/users") && (
-            <NavLink to="/users" className="nav-link">
+            <NavLink
+              to="/users"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               <svg
                 className="nav-icon"
                 width="20"
@@ -144,7 +164,12 @@ function Sidebar() {
           <p className="nav-section-label">System</p>
 
           {canAccess("/settings") && (
-            <NavLink to="/settings" className="nav-link">
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
               <svg
                 className="nav-icon"
                 width="20"

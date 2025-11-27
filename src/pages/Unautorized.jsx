@@ -5,38 +5,31 @@ function Unauthorized() {
   const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "20px",
-        textAlign: "center"
-      }}
-    >
-      <h1 style={{ fontSize: "80px", margin: 0, color: "#007bff" }}>403</h1>
-      <h2 style={{ fontSize: "32px", margin: 0 }}>Unauthorized Access</h2>
-
-      <p style={{ fontSize: "18px", maxWidth: "400px" }}>
-        You do not have permission to view this page.
-      </p>
-
-      <button
-        onClick={() => navigate("/dashboard")}
+    <div className="page">
+      <div
+        className="table-card"
         style={{
-          padding: "12px 25px",
-          fontSize: "16px",
-          border: "none",
-          backgroundColor: "#007bff",
-          color: "white",
-          borderRadius: "5px",
-          cursor: "pointer"
+          maxWidth: 720,
+          margin: "6rem auto",
+          textAlign: "center",
+          padding: "2rem",
         }}
       >
-        Go to Dashboard
-      </button>
+        <h1 style={{ fontSize: 72, margin: 0, color: "var(--primary)" }}>
+          403
+        </h1>
+        <h2 style={{ fontSize: 24, margin: "0.5rem 0 1rem" }}>
+          Unauthorized Access
+        </h2>
+        <p
+          style={{ color: "var(--muted-foreground)", marginBottom: "1.25rem" }}
+        >
+          You do not have permission to view this page.
+        </p>
+        <button className="btn-primary" onClick={() => navigate("/dashboard")}>
+          Go to Dashboard
+        </button>
+      </div>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import DataTable from "../components/DataTable";
+import { useUser } from "@clerk/clerk-react";
 
 ChartJS.register(
   CategoryScale,
@@ -163,6 +164,13 @@ function Dashboard() {
     },
   ]);
 
+  const { user } = useUser();
+  const username =
+    user?.fullName ||
+    user?.firstName ||
+    user?.primaryEmailAddress?.emailAddress ||
+    "thesales";
+
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case "Completed":
@@ -280,25 +288,112 @@ function Dashboard() {
   };
 
   return (
-    <div className="page">
-      <h1 className="page-title">Dashboard Overview</h1>
+    <div className="page page-dashboard">
+      <div className="page-header">
+        <div>
+          <h2 className="welcome">
+            Welcome back, <span className="username">{username}</span>
+          </h2>
+          <p className="subtle">Here's a summary of your POS business</p>
+        </div>
 
-      <div className="kpi-grid">
-        <div className="kpi-card">
-          <h3 className="kpi-title">Total Sales</h3>
-          <p className="kpi-value">$123,000</p>
+        <div className="tabs">
+          <button className="tab active">POS</button>
+          <button className="tab">Takealot</button>
         </div>
-        <div className="kpi-card">
-          <h3 className="kpi-title">Total Products</h3>
-          <p className="kpi-value">456</p>
+      </div>
+
+      <div className="kpi-row">
+        <div className="kpi-card big">
+          <div className="kpi-left">
+            <p className="kpi-label">POS Revenue</p>
+            <p className="kpi-number">R 199</p>
+            <p className="kpi-sub">Monthly revenue</p>
+          </div>
+          <div className="kpi-icon">💰</div>
         </div>
+
         <div className="kpi-card">
-          <h3 className="kpi-title">Stock Alerts</h3>
-          <p className="kpi-value">12</p>
+          <p className="kpi-label">POS Products</p>
+          <p className="kpi-number">1</p>
+          <p className="kpi-sub">Total products</p>
         </div>
+
         <div className="kpi-card">
-          <h3 className="kpi-title">Buy Box %</h3>
-          <p className="kpi-value">72%</p>
+          <p className="kpi-label">POS Orders</p>
+          <p className="kpi-number">1</p>
+          <p className="kpi-sub">Total orders (all time)</p>
+        </div>
+
+        <div className="kpi-card">
+          <p className="kpi-label">POS Users</p>
+          <p className="kpi-number">0</p>
+          <p className="kpi-sub">Active users</p>
+        </div>
+      </div>
+
+      <div className="overview-grid">
+        <div className="overview-card">
+          <h3 className="overview-title">POS Business Overview</h3>
+
+          <div className="overview-stats">
+            <div className="overview-item">
+              <p className="muted">Monthly</p>
+              <p className="large">R 199</p>
+              <p className="muted small">1 orders</p>
+            </div>
+            <div className="overview-item">
+              <p className="muted">Last 7 Days</p>
+              <p className="large">R 0</p>
+              <p className="muted small">0 orders</p>
+            </div>
+            <div className="overview-item">
+              <p className="muted">Today</p>
+              <p className="large">R 0</p>
+              <p className="muted small">0 orders</p>
+            </div>
+          </div>
+
+          <div className="overview-rows">
+            <div className="overview-box">
+              <h4>Today's Performance</h4>
+              <div className="perf-row">
+                <div>Sales</div>
+                <div>R 0</div>
+              </div>
+              <div className="perf-row">
+                <div>Orders</div>
+                <div>0</div>
+              </div>
+              <div className="perf-row">
+                <div>Avg Order</div>
+                <div>R 0</div>
+              </div>
+            </div>
+
+            <div className="overview-box">
+              <h4>7-Day Summary</h4>
+              <div className="perf-row">
+                <div>Total Revenue</div>
+                <div>R 0</div>
+              </div>
+              <div className="perf-row">
+                <div>Total Orders</div>
+                <div>0</div>
+              </div>
+              <div className="perf-row">
+                <div>Daily Average</div>
+                <div>R 0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="products-card">
+          <h3 className="overview-title">Product Overview by Stock Handler</h3>
+          <div className="placeholder">
+            Total Product Statistics (1 Stock Handlers)
+          </div>
         </div>
       </div>
 

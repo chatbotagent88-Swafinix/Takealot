@@ -138,23 +138,8 @@ const POS = () => {
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                width: "300px",
-                padding: "10px 16px",
-                border: "1px solid #e2e8f0",
-                borderRadius: "8px",
-                fontSize: "14px",
-                transition: "all 0.2s",
-                outline: "none",
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#3b82f6";
-                e.target.style.boxShadow = "0 0 0 3px rgba(59, 130, 246, 0.1)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#e2e8f0";
-                e.target.style.boxShadow = "none";
-              }}
+              className="form-input"
+              style={{ width: 300 }}
             />
           </div>
 
@@ -174,16 +159,7 @@ const POS = () => {
                 </div>
               ))
             ) : (
-              <div
-                style={{
-                  gridColumn: "1 / -1",
-                  textAlign: "center",
-                  padding: "2rem",
-                  color: "var(--muted-foreground)",
-                }}
-              >
-                No products found
-              </div>
+              <div className="empty-state">No products found</div>
             )}
           </div>
         </div>
