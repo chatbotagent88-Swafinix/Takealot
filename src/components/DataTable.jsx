@@ -210,9 +210,8 @@ const DataTable = ({
                 <button
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`pagination-btn ${
-                    currentPage === pageNum ? "active" : ""
-                  }`}
+                  className={`pagination-btn ${currentPage === pageNum ? "active" : ""
+                    }`}
                 >
                   {pageNum}
                 </button>
@@ -298,6 +297,7 @@ const DataTable = ({
           text-transform: uppercase;
           letter-spacing: 0.5px;
           white-space: nowrap;
+          border: 1px solid #e2e8f0; /* Added border for grid */
         }
 
         .data-table th.sortable {
@@ -338,7 +338,7 @@ const DataTable = ({
 
         .data-table td {
           padding: 20px 24px;
-          border-top: 1px solid #e2e8f0;
+          border: 1px solid #e2e8f0; /* Changed to full border for grid */
           color: #334155;
           font-size: 14px;
         }
