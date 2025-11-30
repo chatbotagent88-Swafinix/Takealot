@@ -2,159 +2,161 @@ import { useState } from "react";
 import "../styles/main.css";
 
 const Reports = () => {
-    const [dateRange, setDateRange] = useState("Last 30 Days");
-    const [reportType, setReportType] = useState("Sales Overview");
+  const [dateRange, setDateRange] = useState("Last 30 Days");
+  const [reportType, setReportType] = useState("Sales Overview");
 
-    const reports = [
-        {
-            id: "sales-overview",
-            title: "Sales Overview",
-            description: "General sales performance metrics",
-            icon: "📊",
-            color: "blue",
-            status: "Selected",
-            badge: "Coming Soon",
-            badgeColor: "orange",
-        },
-        {
-            id: "product-performance",
-            title: "Product Performance",
-            description: "Top selling products and inventory analysis",
-            icon: "📦",
-            color: "green",
-            status: "Click to View",
-            badge: "Available",
-            badgeColor: "green",
-        },
-        {
-            id: "sales-trends",
-            title: "Sales Trends",
-            description: "Historical sales trends and patterns",
-            icon: "📈",
-            color: "purple",
-            status: "Click to View",
-            badge: "Coming Soon",
-            badgeColor: "orange",
-        },
-        {
-            id: "profitability",
-            title: "Profitability Analysis",
-            description: "Profit margins and financial performance",
-            icon: "💲",
-            color: "yellow",
-            status: "Click to View",
-            badge: "Coming Soon",
-            badgeColor: "orange",
-        },
-        {
-            id: "inventory",
-            title: "Inventory Report",
-            description: "Stock levels and reorder recommendations",
-            icon: "🎯",
-            color: "red",
-            status: "Click to View",
-            badge: "Coming Soon",
-            badgeColor: "orange",
-        },
-        {
-            id: "returns",
-            title: "Returns Analysis",
-            description: "Product returns and refund patterns",
-            icon: "↩️",
-            color: "orange",
-            status: "Click to View",
-            badge: "Coming Soon",
-            badgeColor: "orange",
-        },
-    ];
+  const reports = [
+    {
+      id: "sales-overview",
+      title: "Sales Overview",
+      description: "General sales performance metrics",
+      icon: "📊",
+      color: "blue",
+      status: "Selected",
+      badge: "Coming Soon",
+      badgeColor: "orange",
+    },
+    {
+      id: "product-performance",
+      title: "Product Performance",
+      description: "Top selling products and inventory analysis",
+      icon: "📦",
+      color: "green",
+      status: "Click to View",
+      badge: "Available",
+      badgeColor: "green",
+    },
+    {
+      id: "sales-trends",
+      title: "Sales Trends",
+      description: "Historical sales trends and patterns",
+      icon: "📈",
+      color: "purple",
+      status: "Click to View",
+      badge: "Coming Soon",
+      badgeColor: "orange",
+    },
+    {
+      id: "profitability",
+      title: "Profitability Analysis",
+      description: "Profit margins and financial performance",
+      icon: "💲",
+      color: "yellow",
+      status: "Click to View",
+      badge: "Coming Soon",
+      badgeColor: "orange",
+    },
+    {
+      id: "inventory",
+      title: "Inventory Report",
+      description: "Stock levels and reorder recommendations",
+      icon: "🎯",
+      color: "red",
+      status: "Click to View",
+      badge: "Coming Soon",
+      badgeColor: "orange",
+    },
+    {
+      id: "returns",
+      title: "Returns Analysis",
+      description: "Product returns and refund patterns",
+      icon: "↩️",
+      color: "orange",
+      status: "Click to View",
+      badge: "Coming Soon",
+      badgeColor: "orange",
+    },
+  ];
 
-    return (
-        <div className="page reports-page">
-            <div className="page-header-custom">
-                <div className="header-left">
-                    <h1 className="page-title-custom">Takealot Reports</h1>
-                    <p className="page-subtitle-custom">
-                        Comprehensive analytics and insights for your Takealot integration
-                    </p>
+  return (
+    <div className="page reports-page">
+      <div className="page-header-custom">
+        <div className="header-left">
+          <h1 className="page-title-custom">Takealot Reports</h1>
+          <p className="page-subtitle-custom">
+            Comprehensive analytics and insights for your Takealot integration
+          </p>
+        </div>
+        <div className="header-actions">
+          <button className="btn-generate">↻ Generate Report</button>
+          <button className="btn-export">📥 Export</button>
+        </div>
+      </div>
+
+      <div className="config-card">
+        <h3 className="section-title">Report Configuration</h3>
+        <div className="config-row">
+          <div className="form-group">
+            <label>Date Range</label>
+            <select
+              value={dateRange}
+              onChange={(e) => setDateRange(e.target.value)}
+              className="form-select"
+            >
+              <option>Last 30 Days</option>
+              <option>Last 7 Days</option>
+              <option>This Month</option>
+              <option>Last Month</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Report Type</label>
+            <select
+              value={reportType}
+              onChange={(e) => setReportType(e.target.value)}
+              className="form-select"
+            >
+              <option>Sales Overview</option>
+              <option>Product Performance</option>
+            </select>
+          </div>
+        </div>
+        <div className="config-actions">
+          <button className="btn-view-report">📊 View Report</button>
+        </div>
+      </div>
+
+      <div className="reports-section">
+        <h3 className="section-title">Available Reports</h3>
+        <p className="section-subtitle">
+          Click on any report card to select and view it immediately
+        </p>
+
+        <div className="reports-grid">
+          {reports.map((report) => (
+            <div
+              key={report.id}
+              className={`report-card ${
+                report.id === "sales-overview" ? "selected" : ""
+              }`}
+            >
+              <div className="report-header">
+                <div className={`report-icon icon-${report.color}`}>
+                  {report.icon}
                 </div>
-                <div className="header-actions">
-                    <button className="btn-generate">↻ Generate Report</button>
-                    <button className="btn-export">📥 Export</button>
-                </div>
+                <h4 className="report-title">{report.title}</h4>
+              </div>
+              <p className="report-desc">{report.description}</p>
+              <div className="report-footer">
+                <span
+                  className={`status-text ${
+                    report.status === "Selected" ? "selected-text" : ""
+                  }`}
+                >
+                  {report.status}
+                </span>
+                {report.badge && (
+                  <span className={`report-badge badge-${report.badgeColor}`}>
+                    {report.badge}
+                  </span>
+                )}
+              </div>
             </div>
+          ))}
+        </div>
+      </div>
 
-            <div className="config-card">
-                <h3 className="section-title">Report Configuration</h3>
-                <div className="config-row">
-                    <div className="form-group">
-                        <label>Date Range</label>
-                        <select
-                            value={dateRange}
-                            onChange={(e) => setDateRange(e.target.value)}
-                            className="form-select"
-                        >
-                            <option>Last 30 Days</option>
-                            <option>Last 7 Days</option>
-                            <option>This Month</option>
-                            <option>Last Month</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Report Type</label>
-                        <select
-                            value={reportType}
-                            onChange={(e) => setReportType(e.target.value)}
-                            className="form-select"
-                        >
-                            <option>Sales Overview</option>
-                            <option>Product Performance</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="config-actions">
-                    <button className="btn-view-report">📊 View Report</button>
-                </div>
-            </div>
-
-            <div className="reports-section">
-                <h3 className="section-title">Available Reports</h3>
-                <p className="section-subtitle">
-                    Click on any report card to select and view it immediately
-                </p>
-
-                <div className="reports-grid">
-                    {reports.map((report) => (
-                        <div
-                            key={report.id}
-                            className={`report-card ${report.id === "sales-overview" ? "selected" : ""
-                                }`}
-                        >
-                            <div className="report-header">
-                                <div className={`report-icon icon-${report.color}`}>
-                                    {report.icon}
-                                </div>
-                                <h4 className="report-title">{report.title}</h4>
-                            </div>
-                            <p className="report-desc">{report.description}</p>
-                            <div className="report-footer">
-                                <span
-                                    className={`status-text ${report.status === "Selected" ? "selected-text" : ""
-                                        }`}
-                                >
-                                    {report.status}
-                                </span>
-                                {report.badge && (
-                                    <span className={`report-badge badge-${report.badgeColor}`}>
-                                        {report.badge}
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            <style>{`
+      <style>{`
         .reports-page {
           padding: 1.5rem 2rem;
         }
@@ -374,8 +376,8 @@ const Reports = () => {
         .badge-green { background-color: #dcfce7; color: #166534; }
         .badge-orange { background-color: #ffedd5; color: #c2410c; }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default Reports;

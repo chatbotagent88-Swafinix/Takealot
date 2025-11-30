@@ -290,7 +290,8 @@ const Products = () => {
         <div className="header-left">
           <h1 className="page-title-custom">Takealot Products</h1>
           <div className="header-subtitle">
-            Total: 3 801 products • <span className="stale-warning">● Stale (50h old)</span>
+            Total: 3 801 products •{" "}
+            <span className="stale-warning">● Stale (50h old)</span>
           </div>
         </div>
         <div className="header-actions">

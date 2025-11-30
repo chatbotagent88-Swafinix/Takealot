@@ -38,7 +38,9 @@ function Users() {
       width: "250px",
       render: (row) => (
         <div className="user-cell">
-          <div className={`user-avatar avatar-${row.color}`}>{row.initials}</div>
+          <div className={`user-avatar avatar-${row.color}`}>
+            {row.initials}
+          </div>
           <div className="user-info">
             <div className="user-name">{row.name}</div>
             <div className="user-email">{row.email}</div>
@@ -53,8 +55,9 @@ function Users() {
       width: "150px",
       render: (row) => (
         <span
-          className={`role-badge ${row.role === "admin" ? "role-admin" : "role-user"
-            }`}
+          className={`role-badge ${
+            row.role === "admin" ? "role-admin" : "role-user"
+          }`}
         >
           {row.role}
         </span>
@@ -77,7 +80,9 @@ function Users() {
       label: "INTEGRATIONS",
       sortable: true,
       width: "120px",
-      render: (row) => <span className="integration-count">{row.integrations}</span>,
+      render: (row) => (
+        <span className="integration-count">{row.integrations}</span>
+      ),
     },
     {
       key: "joined",

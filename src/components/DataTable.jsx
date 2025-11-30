@@ -281,25 +281,22 @@ const DataTable = ({
 
         .table-wrapper {
           overflow-x: auto;
-          border-radius: 6px;
         }
 
         .data-table {
           width: 100%;
-          border-collapse: separate;
-          border-spacing: 0;
-          background: white;
+          border-collapse: collapse;
         }
 
         .data-table th {
           text-align: left;
-          padding: 14px 20px;
-          background-color: #ffffff;
-          font-weight: 700;
-          color: #475569;
+          padding: 18px 24px;
+          background-color: #f8fafc;
+          font-weight: 600;
+          color: #64748b;
           font-size: 13px;
           text-transform: uppercase;
-          letter-spacing: 0.6px;
+          letter-spacing: 0.5px;
           white-space: nowrap;
           border: 1px solid #e2e8f0; /* Added border for grid */
         }

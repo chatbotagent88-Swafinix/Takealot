@@ -70,7 +70,9 @@ const Settings = () => {
             <div className="check-icon purple-bg">📦</div>
             <div className="check-info">
               <h4 className="check-title">Product Catalog</h4>
-              <p className="check-detail">GET /v2/offers (Rate limit: 200/min)</p>
+              <p className="check-detail">
+                GET /v2/offers (Rate limit: 200/min)
+              </p>
               <div className="check-meta">
                 <span>Last: 1:18:55 PM</span>
                 <span className="purple-text">{catalogStatus}</span>

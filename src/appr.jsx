@@ -1,15 +1,15 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
-import Sidebar from './components/Sidebar';
-import Topbar from './components/Topbar';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import Dashboard from './pages/Dashboard';
-import Products from './pages/Products';
-import POS from './pages/POS';
-import Settings from './pages/Settings';
-import Users from './pages/Users';
-import Unauthorized from './pages/Unauthorized';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { SignedIn, SignedOut, RedirectToSignIn } from "@clerk/clerk-react";
+import Sidebar from "./components/Sidebar";
+import Topbar from "./components/Topbar";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import POS from "./pages/POS";
+import Settings from "./pages/Settings";
+import Users from "./pages/Users";
+import Unauthorized from "./pages/Unauthorized";
 
 function App() {
   return (

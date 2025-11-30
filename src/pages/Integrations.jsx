@@ -1,72 +1,72 @@
 import "../styles/main.css";
 
 const Integrations = () => {
-    return (
-        <div className="page integrations-page">
-            <div className="page-header-custom">
-                <h1 className="page-title-custom">Integration Management</h1>
+  return (
+    <div className="page integrations-page">
+      <div className="page-header-custom">
+        <h1 className="page-title-custom">Integration Management</h1>
+      </div>
+
+      <div className="integration-hub-card">
+        <div className="hub-header">
+          <h2 className="hub-title">Integration Hub</h2>
+          <p className="hub-subtitle">
+            Connect your business to multiple platforms and streamline
+            operations
+          </p>
+        </div>
+
+        <div className="hub-status-bar">
+          <div className="status-indicator">
+            <span className="dot green"></span>
+            <span className="status-text">
+              <strong>1 Active Integration</strong>
+              <br />
+              <span className="last-updated">Last updated: 12:57:13</span>
+            </span>
+          </div>
+          <div className="hub-actions">
+            <button className="btn-manual-refresh">↻ Manual Refresh</button>
+            <button className="btn-add-integration">+ Add Integration</button>
+          </div>
+        </div>
+
+        <div className="integration-list">
+          <div className="list-header">
+            <div className="col-details">Integration Details</div>
+            <div className="col-type">Type</div>
+            <div className="col-status">Status</div>
+            <div className="col-access">Access</div>
+            <div className="col-actions">Actions</div>
+          </div>
+
+          <div className="integration-item">
+            <div className="col-details">
+              <div className="integration-icon">⚙️</div>
+              <div className="integration-info">
+                <h4 className="integration-name">LTech</h4>
+                <p className="integration-id">ID: integration_1762972312137</p>
+              </div>
             </div>
-
-            <div className="integration-hub-card">
-                <div className="hub-header">
-                    <h2 className="hub-title">Integration Hub</h2>
-                    <p className="hub-subtitle">
-                        Connect your business to multiple platforms and streamline
-                        operations
-                    </p>
-                </div>
-
-                <div className="hub-status-bar">
-                    <div className="status-indicator">
-                        <span className="dot green"></span>
-                        <span className="status-text">
-                            <strong>1 Active Integration</strong>
-                            <br />
-                            <span className="last-updated">Last updated: 12:57:13</span>
-                        </span>
-                    </div>
-                    <div className="hub-actions">
-                        <button className="btn-manual-refresh">↻ Manual Refresh</button>
-                        <button className="btn-add-integration">+ Add Integration</button>
-                    </div>
-                </div>
-
-                <div className="integration-list">
-                    <div className="list-header">
-                        <div className="col-details">Integration Details</div>
-                        <div className="col-type">Type</div>
-                        <div className="col-status">Status</div>
-                        <div className="col-access">Access</div>
-                        <div className="col-actions">Actions</div>
-                    </div>
-
-                    <div className="integration-item">
-                        <div className="col-details">
-                            <div className="integration-icon">⚙️</div>
-                            <div className="integration-info">
-                                <h4 className="integration-name">LTech</h4>
-                                <p className="integration-id">ID: integration_1762972312137</p>
-                            </div>
-                        </div>
-                        <div className="col-type">
-                            <span className="badge-type">Takealot</span>
-                        </div>
-                        <div className="col-status">
-                            <span className="badge-status active">• Active</span>
-                        </div>
-                        <div className="col-access">
-                            <span className="access-info">👤 Admin</span>
-                        </div>
-                        <div className="col-actions">
-                            <button className="btn-open">Open</button>
-                            <button className="btn-icon-action">✏️</button>
-                            <button className="btn-icon-action delete">🗑️</button>
-                        </div>
-                    </div>
-                </div>
+            <div className="col-type">
+              <span className="badge-type">Takealot</span>
             </div>
+            <div className="col-status">
+              <span className="badge-status active">• Active</span>
+            </div>
+            <div className="col-access">
+              <span className="access-info">👤 Admin</span>
+            </div>
+            <div className="col-actions">
+              <button className="btn-open">Open</button>
+              <button className="btn-icon-action">✏️</button>
+              <button className="btn-icon-action delete">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-            <style>{`
+      <style>{`
         .integrations-page {
           padding: 1.5rem 2rem;
         }
@@ -268,8 +268,8 @@ const Integrations = () => {
           color: #ef4444;
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default Integrations;

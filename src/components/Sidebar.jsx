@@ -106,8 +106,9 @@ function Sidebar() {
           {/* Takealot (LTech) Group */}
           <div className="nav-group">
             <div
-              className={`nav-group-header ${expandedSections.takealot ? "expanded" : ""
-                }`}
+              className={`nav-group-header ${
+                expandedSections.takealot ? "expanded" : ""
+              }`}
               onClick={() => toggleSection("takealot")}
             >
               <div className="group-title">
@@ -196,8 +197,9 @@ function Sidebar() {
 
           <div className="nav-group">
             <div
-              className={`nav-group-header ${expandedSections.administration ? "expanded" : ""
-                }`}
+              className={`nav-group-header ${
+                expandedSections.administration ? "expanded" : ""
+              }`}
               onClick={() => toggleSection("administration")}
             >
               <div className="group-title">
