@@ -301,7 +301,7 @@ const DataTable = ({
           text-transform: uppercase;
           letter-spacing: 0.6px;
           white-space: nowrap;
-          border-bottom: 1px solid #eef2f7;
+          border: 1px solid #e2e8f0; /* Added border for grid */
         }
 
         .data-table th.sortable {
@@ -341,8 +341,8 @@ const DataTable = ({
         }
 
         .data-table td {
-          padding: 14px 20px;
-          border-top: 1px solid #eef2f7;
+          padding: 20px 24px;
+          border: 1px solid #e2e8f0; /* Changed to full border for grid */
           color: #334155;
           font-size: 14px;
         }

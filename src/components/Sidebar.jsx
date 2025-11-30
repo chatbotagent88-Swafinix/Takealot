@@ -1,15 +1,30 @@
-// src/components/Sidebar.jsx (FIXED - Clean design with role badge)
+// src/components/Sidebar.jsx (REFACTORED - Categorized & Nested)
 
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 import { useRBAC } from "../context/RBACContext";
 import RoleBadge from "./RoleBadge";
 
 function Sidebar() {
   const { canAccess } = useRBAC();
+  const location = useLocation();
+
+  // State to manage expanded sections (default open for Takealot)
+  const [expandedSections, setExpandedSections] = useState({
+    takealot: true,
+    administration: true,
+  });
+
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
 
   return (
     <aside className="sidebar">
-      {/* Logo Section with Role Emoji Indicator on RIGHT */}
+      {/* Logo Section */}
       <div className="sidebar-header">
         <div
           className="logo-container"
@@ -44,15 +59,14 @@ function Sidebar() {
               <p className="sidebar-subtitle">Admin</p>
             </div>
           </div>
-
-          {/* Role Emoji Indicator - RIGHT SIDE */}
           <RoleBadge />
         </div>
       </div>
 
       <nav className="sidebar-nav">
+        {/* POS System Section */}
         <div className="nav-section">
-          <p className="nav-section-label">Main Menu</p>
+          <p className="nav-section-label">POS System</p>
 
           {canAccess("/dashboard") && (
             <NavLink
@@ -61,49 +75,8 @@ function Sidebar() {
                 isActive ? "nav-link active" : "nav-link"
               }
             >
-              <svg
-                className="nav-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-              </svg>
+              <span className="nav-icon-text">🏠</span>
               <span>Dashboard</span>
-            </NavLink>
-          )}
-
-          {canAccess("/products") && (
-            <NavLink
-              to="/products"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <svg
-                className="nav-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                <line x1="12" y1="22.08" x2="12" y2="12"></line>
-              </svg>
-              <span>Products</span>
             </NavLink>
           )}
 
@@ -114,104 +87,254 @@ function Sidebar() {
                 isActive ? "nav-link active" : "nav-link"
               }
             >
-              <svg
-                className="nav-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                <line x1="1" y1="10" x2="23" y2="10"></line>
-              </svg>
-              <span>POS / Billing</span>
+              <span className="nav-icon-text">🖥️</span>
+              <span>POS</span>
             </NavLink>
           )}
 
-          {canAccess("/users") && (
-            <NavLink
-              to="/users"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
+          <div className="nav-link disabled">
+            <span className="nav-icon-text">🛒</span>
+            <span>Purchase System</span>
+            <span className="chevron">›</span>
+          </div>
+        </div>
+
+        {/* INTEGRATIONS Section */}
+        <div className="nav-section">
+          <p className="nav-section-label">INTEGRATIONS</p>
+
+          {/* Takealot (LTech) Group */}
+          <div className="nav-group">
+            <div
+              className={`nav-group-header ${expandedSections.takealot ? "expanded" : ""
+                }`}
+              onClick={() => toggleSection("takealot")}
             >
-              <svg
-                className="nav-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
-              <span>Users</span>
-            </NavLink>
-          )}
+              <div className="group-title">
+                <span className="nav-icon-text">📦</span>
+                <span>Takealot (LTech)</span>
+              </div>
+              <span className="chevron">
+                {expandedSections.takealot ? "⌄" : "›"}
+              </span>
+            </div>
+
+            {expandedSections.takealot && (
+              <div className="nav-group-items">
+                {canAccess("/products") && (
+                  <NavLink
+                    to="/products"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span className="nav-icon-text">🛍️</span>
+                    <span>Products</span>
+                  </NavLink>
+                )}
+
+                {canAccess("/products") && (
+                  <NavLink
+                    to="/sales"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span className="nav-icon-text">💰</span>
+                    <span>Sales</span>
+                  </NavLink>
+                )}
+
+                {canAccess("/products") && (
+                  <NavLink
+                    to="/auto-price"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span className="nav-icon-text">🏷️</span>
+                    <span>Auto Price</span>
+                  </NavLink>
+                )}
+
+                {canAccess("/products") && (
+                  <NavLink
+                    to="/reports"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span className="nav-icon-text">📊</span>
+                    <span>Reports</span>
+                  </NavLink>
+                )}
+
+                <div className="nav-link disabled">
+                  <span className="nav-icon-text">🧾</span>
+                  <span>Recon Invoice</span>
+                </div>
+
+                {canAccess("/settings") && (
+                  <NavLink
+                    to="/settings"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span className="nav-icon-text">⚙️</span>
+                    <span>Settings</span>
+                  </NavLink>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ADMINISTRATION Section */}
+        <div className="nav-section">
+          <p className="nav-section-label">ADMINISTRATION</p>
+
+          <div className="nav-group">
+            <div
+              className={`nav-group-header ${expandedSections.administration ? "expanded" : ""
+                }`}
+              onClick={() => toggleSection("administration")}
+            >
+              <div className="group-title">
+                <span className="nav-icon-text">🛡️</span>
+                <span>Administration</span>
+              </div>
+              <span className="chevron">
+                {expandedSections.administration ? "⌄" : "›"}
+              </span>
+            </div>
+
+            {expandedSections.administration && (
+              <div className="nav-group-items">
+                {canAccess("/users") && (
+                  <NavLink
+                    to="/users"
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active" : "nav-link"
+                    }
+                  >
+                    <span className="nav-icon-text">👥</span>
+                    <span>Manage Users</span>
+                  </NavLink>
+                )}
+
+                <NavLink
+                  to="/integrations"
+                  className={({ isActive }) =>
+                    isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  <span className="nav-icon-text">🔗</span>
+                  <span>Manage Integrations</span>
+                </NavLink>
+
+                <div className="nav-link disabled">
+                  <span className="nav-icon-text">📱</span>
+                  <span>App Settings</span>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="nav-section">
-          <p className="nav-section-label">System</p>
-
-          {canAccess("/settings") && (
-            <NavLink
-              to="/settings"
-              className={({ isActive }) =>
-                isActive ? "nav-link active" : "nav-link"
-              }
-            >
-              <svg
-                className="nav-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M12 1v6m0 6v6m7.07-14.07l-4.24 4.24m-5.66 5.66L4.93 18.07M23 12h-6m-6 0H1m18.07 7.07l-4.24-4.24m-5.66-5.66L4.93 5.93"></path>
-              </svg>
-              <span>Settings</span>
-            </NavLink>
-          )}
+          <div className="nav-link logout">
+            <span className="nav-icon-text">🚪</span>
+            <span>Logout</span>
+          </div>
         </div>
       </nav>
 
-      <div className="sidebar-footer">
-        <div className="sidebar-help-card">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="16" x2="12" y2="12"></line>
-            <line x1="12" y1="8" x2="12.01" y2="8"></line>
-          </svg>
-          <p className="help-text">Need help?</p>
-          <a href="#" className="help-link">
-            Documentation
-          </a>
-        </div>
-      </div>
+      <style>{`
+        .nav-group-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem 1rem;
+          cursor: pointer;
+          border-radius: 8px;
+          transition: background-color 0.2s;
+          color: #d1d5db;
+        }
+
+        .nav-group-header:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+          color: white;
+        }
+
+        .nav-group-header.expanded {
+          background-color: #4f46e5; /* Active/Expanded color */
+          color: white;
+        }
+
+        .group-title {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-weight: 500;
+        }
+
+        .nav-group-items {
+          padding-left: 1rem; /* Indent nested items */
+          margin-top: 0.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        .nav-link {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 0.6rem 1rem;
+          color: #9ca3af;
+          text-decoration: none;
+          border-radius: 8px;
+          transition: all 0.2s;
+          font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+          background-color: rgba(255, 255, 255, 0.05);
+          color: white;
+        }
+
+        .nav-link.active {
+          background-color: rgba(255, 255, 255, 0.1);
+          color: white;
+          font-weight: 600;
+        }
+
+        .nav-icon-text {
+          width: 20px;
+          text-align: center;
+          font-size: 1.1rem;
+        }
+
+        .chevron {
+          font-size: 1.2rem;
+          line-height: 1;
+        }
+
+        .nav-link.disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .nav-link.logout {
+          margin-top: 1rem;
+          color: #ef4444;
+        }
+        
+        .nav-link.logout:hover {
+          background-color: rgba(239, 68, 68, 0.1);
+        }
+      `}</style>
     </aside>
   );
 }

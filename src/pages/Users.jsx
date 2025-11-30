@@ -1,155 +1,127 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import "../styles/main.css";
 import DataTable from "../components/DataTable";
 
 function Users() {
   const [users, setUsers] = useState([
     {
       id: 1,
-      name: "John Admin",
-      email: "admin@crm.com",
-      role: "Admin",
-      status: "Active",
-      joined: "Jan 15, 2025",
+      name: "kabo",
+      email: "kabo@ltech.com",
+      role: "takealot user",
+      status: "Admin",
+      integrations: 1,
+      joined: "2025/11/12",
+      initials: "K",
+      color: "blue",
     },
     {
       id: 2,
-      name: "Sarah Manager",
-      email: "manager@crm.com",
-      role: "Manager",
-      status: "Active",
-      joined: "Feb 01, 2025",
-    },
-    {
-      id: 3,
-      name: "Mike Staff",
-      email: "staff@crm.com",
-      role: "Staff",
-      status: "Active",
-      joined: "Mar 10, 2025",
+      name: "Thesales",
+      email: "junaidqasim@yahoo.com",
+      role: "admin",
+      status: "Admin",
+      integrations: 1,
+      joined: "2025/11/12",
+      initials: "T",
+      color: "purple",
     },
   ]);
 
   const [showModal, setShowModal] = useState(false);
-  const [editingUser, setEditingUser] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    role: "Staff",
-    status: "Active",
-    joined: new Date().toLocaleDateString(),
-  });
-
-  const handleAddUser = () => {
-    setEditingUser(null);
-    setFormData({
-      name: "",
-      email: "",
-      role: "Staff",
-      status: "Active",
-      joined: new Date().toLocaleDateString(),
-    });
-    setShowModal(true);
-  };
-
-  const handleEditUser = (user) => {
-    setEditingUser(user);
-    setFormData({
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      status: user.status,
-      joined: user.joined,
-    });
-    setShowModal(true);
-  };
-
-  const handleDeleteUser = (userId) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      setUsers(users.filter((u) => u.id !== userId));
-    }
-  };
-
-  const handleSubmit = () => {
-    if (!formData.name || !formData.email)
-      return alert("Please fill in required fields");
-
-    if (editingUser) {
-      setUsers(
-        users.map((u) => (u.id === editingUser.id ? { ...u, ...formData } : u))
-      );
-    } else {
-      setUsers([...users, { ...formData, id: Date.now() }]);
-    }
-
-    setShowModal(false);
-    setEditingUser(null);
-  };
-
-  const getRoleBadgeClass = (role) =>
-    role === "Admin"
-      ? "badge-success"
-      : role === "Manager"
-      ? "badge-pending"
-      : "";
 
   const columns = [
-    { key: "name", label: "Name", sortable: true },
-    { key: "email", label: "Email", sortable: true },
+    {
+      key: "user",
+      label: "USER",
+      sortable: true,
+      width: "250px",
+      render: (row) => (
+        <div className="user-cell">
+          <div className={`user-avatar avatar-${row.color}`}>{row.initials}</div>
+          <div className="user-info">
+            <div className="user-name">{row.name}</div>
+            <div className="user-email">{row.email}</div>
+          </div>
+        </div>
+      ),
+    },
     {
       key: "role",
-      label: "Role",
+      label: "ROLE",
       sortable: true,
-      render: (u) => (
-        <span className={`badge ${getRoleBadgeClass(u.role)}`}>{u.role}</span>
+      width: "150px",
+      render: (row) => (
+        <span
+          className={`role-badge ${row.role === "admin" ? "role-admin" : "role-user"
+            }`}
+        >
+          {row.role}
+        </span>
       ),
     },
     {
       key: "status",
-      label: "Status",
+      label: "STATUS",
       sortable: true,
-      render: (u) => (
-        <span
-          className={`badge ${u.status === "Active" ? "badge-success" : ""}`}
-        >
-          {u.status}
-        </span>
+      width: "150px",
+      render: (row) => (
+        <div className="status-badges">
+          <span className="status-tag email">Email</span>
+          <span className="status-tag admin">{row.status}</span>
+        </div>
       ),
     },
-    { key: "joined", label: "Joined", sortable: true },
+    {
+      key: "integrations",
+      label: "INTEGRATIONS",
+      sortable: true,
+      width: "120px",
+      render: (row) => <span className="integration-count">{row.integrations}</span>,
+    },
+    {
+      key: "joined",
+      label: "JOINED",
+      sortable: true,
+      width: "120px",
+      render: (row) => <span className="joined-date">{row.joined}</span>,
+    },
     {
       key: "actions",
-      label: "Actions",
+      label: "ACTIONS",
       sortable: false,
-      render: (u) => (
-        <>
-          <button className="btn-edit" onClick={() => handleEditUser(u)}>
-            Edit
-          </button>
-          <button className="btn-delete" onClick={() => handleDeleteUser(u.id)}>
-            Delete
-          </button>
-        </>
+      width: "120px",
+      render: () => (
+        <div className="action-icons">
+          <button className="icon-btn view">👁️</button>
+          <button className="icon-btn edit">✏️</button>
+          <button className="icon-btn settings">⚙️</button>
+          <button className="icon-btn delete">🗑️</button>
+        </div>
       ),
     },
   ];
 
   return (
-    <div className="page">
-      <h1 className="page-title">User Management</h1>
+    <div className="page users-page">
+      <div className="page-header-custom">
+        <div className="header-left">
+          <h1 className="page-title-custom">User Management</h1>
+          <p className="page-subtitle-custom">
+            Manage your profile and sub-users.
+          </p>
+        </div>
+        <button className="btn-add-user" onClick={() => setShowModal(true)}>
+          + Add New User
+        </button>
+      </div>
 
       <div className="table-card">
-        <div className="table-header">
-          <h3 className="table-title">Users</h3>
-          <button className="btn-primary" onClick={handleAddUser}>
-            Add User
-          </button>
-        </div>
-
         <DataTable
           data={users}
           columns={columns}
-          searchPlaceholder="Search users by name, email, role..."
-          itemsPerPageOptions={[5, 10, 25]}
+          searchPlaceholder="Search by name, email, or role"
+          itemsPerPageOptions={[10, 25, 50]}
           defaultItemsPerPage={10}
         />
       </div>
@@ -158,7 +130,7 @@ function Users() {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{editingUser ? "Edit User" : "Add New User"}</h2>
+              <h2>Add New User</h2>
               <button
                 className="modal-close"
                 onClick={() => setShowModal(false)}
@@ -166,82 +138,164 @@ function Users() {
                 ×
               </button>
             </div>
-
-            <div className="modal-body" style={{ padding: "1.25rem" }}>
-              <div className="form-group">
-                <label className="form-label">Name</label>
-                <input
-                  className="form-input"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Email</label>
-                <input
-                  className="form-input"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Role</label>
-                <select
-                  className="form-select"
-                  value={formData.role}
-                  onChange={(e) =>
-                    setFormData({ ...formData, role: e.target.value })
-                  }
-                >
-                  <option>Staff</option>
-                  <option>Manager</option>
-                  <option>Admin</option>
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Status</label>
-                <select
-                  className="form-select"
-                  value={formData.status}
-                  onChange={(e) =>
-                    setFormData({ ...formData, status: e.target.value })
-                  }
-                >
-                  <option>Active</option>
-                  <option>Inactive</option>
-                </select>
-              </div>
-
-              <div style={{ display: "flex", gap: 12 }}>
-                <button
-                  className="btn-primary"
-                  style={{ flex: 1 }}
-                  onClick={handleSubmit}
-                >
-                  {editingUser ? "Update User" : "Add User"}
-                </button>
-                <button
-                  className="btn-delete"
-                  style={{ flex: 1 }}
-                  onClick={() => {
-                    setShowModal(false);
-                    setEditingUser(null);
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
+            <div className="modal-body">
+              <p>User creation form placeholder...</p>
             </div>
           </div>
         </div>
       )}
+
+      <style>{`
+        .users-page {
+          padding: 1.5rem 2rem;
+        }
+
+        .page-header-custom {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 2rem;
+        }
+
+        .page-title-custom {
+          font-size: 1.75rem;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 0.25rem;
+        }
+
+        .page-subtitle-custom {
+          color: #6b7280;
+          font-size: 0.9rem;
+        }
+
+        .btn-add-user {
+          background-color: #3b82f6;
+          color: white;
+          border: none;
+          padding: 0.75rem 1.5rem;
+          border-radius: 6px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        .table-card {
+          background: white;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 1rem;
+        }
+
+        .user-cell {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+
+        .avatar-blue { background-color: #3b82f6; }
+        .avatar-purple { background-color: #7c3aed; }
+
+        .user-info {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .user-name {
+          font-weight: 600;
+          color: #111827;
+          font-size: 0.9rem;
+        }
+
+        .user-email {
+          font-size: 0.8rem;
+          color: #6b7280;
+        }
+
+        .role-badge {
+          padding: 4px 10px;
+          border-radius: 6px;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        .role-user {
+          background: #ffedd5;
+          color: #c2410c;
+        }
+
+        .role-admin {
+          background: #dbeafe;
+          color: #1e40af;
+        }
+
+        .status-badges {
+          display: flex;
+          gap: 6px;
+        }
+
+        .status-tag {
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 0.75rem;
+          font-weight: 600;
+        }
+
+        .status-tag.email {
+          background: #dcfce7;
+          color: #166534;
+        }
+
+        .status-tag.admin {
+          background: #ffedd5;
+          color: #c2410c;
+        }
+
+        .integration-count {
+          font-weight: 600;
+          color: #374151;
+        }
+
+        .joined-date {
+          font-size: 0.9rem;
+          color: #4b5563;
+        }
+
+        .action-icons {
+          display: flex;
+          gap: 8px;
+        }
+
+        .icon-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 1rem;
+          opacity: 0.6;
+          padding: 4px;
+        }
+
+        .icon-btn:hover {
+          opacity: 1;
+          background: #f3f4f6;
+          border-radius: 4px;
+        }
+
+        .icon-btn.delete {
+          color: #ef4444;
+        }
+      `}</style>
     </div>
   );
 }

@@ -9,6 +9,10 @@ import Topbar from "./components/Topbar";
 
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
+import Sales from "./pages/Sales";
+import AutoPrice from "./pages/AutoPrice";
+import Reports from "./pages/Reports";
+import Integrations from "./pages/Integrations";
 import POS from "./pages/POS";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
@@ -54,6 +58,42 @@ function App() {
                     element={
                       <RoleProtectedRoute permission="productsView">
                         <Products />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/sales"
+                    element={
+                      <RoleProtectedRoute permission="productsView">
+                        <Sales />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/auto-price"
+                    element={
+                      <RoleProtectedRoute permission="productsView">
+                        <AutoPrice />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/reports"
+                    element={
+                      <RoleProtectedRoute permission="productsView">
+                        <Reports />
+                      </RoleProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/integrations"
+                    element={
+                      <RoleProtectedRoute permission="dashboard">
+                        <Integrations />
                       </RoleProtectedRoute>
                     }
                   />
